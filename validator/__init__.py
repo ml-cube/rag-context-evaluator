@@ -1,3 +1,3 @@
-from .main import ValidatorTemplate
+from .main import LlmRagRelevanceEvaluator
 
-__all__ = ["ValidatorTemplate"]
+__all__ = ["LlmRagRelevanceEvaluator"]
