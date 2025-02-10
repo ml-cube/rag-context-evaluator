@@ -14,3 +14,6 @@ qa:
 	make lint
 	make type
 	make test
+
+dev-sync:
+	uv sync --all-extras --no-cache
