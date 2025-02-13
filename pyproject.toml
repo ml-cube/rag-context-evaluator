@@ -9,13 +9,15 @@ license = {file = "LICENSE"}
 readme = "README.md"
 requires-python = ">= 3.10"
 dependencies = [
-    "guardrails-ai>=0.4.0"
+    "guardrails-ai>=0.4.0",
+    "langchain-google-genai>=2.0.9",
+    "langchain[openai]>=0.3.18",
 ]
 
 [project.optional-dependencies]
 dev = [
-    "arize-phoenix>=7.12.0",
-    "datasets>=3.2.0",
+    "joblib>=1.4.2",
+    "mypy>=1.15.0",
     "pandas>=2.2.3",
     "polars>=1.22.0",
     "pyright>=1.1.393",

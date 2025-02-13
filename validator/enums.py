@@ -1,4 +1,4 @@
-from enum import Enum, EnumMeta, IntFlag
+from enum import Enum, EnumMeta
 from typing import Any
 
 
