@@ -1,25 +1,27 @@
 # Overview
 
-| Developed by | Guardrails AI |
-| --- | --- |
-| Date of development | Feb 15, 2024 |
-| Validator type | Format |
-| Blog |  |
-| License | Apache 2 |
-| Input/Output | Output |
+| Developed by        | Guardrails AI |
+| ------------------- | ------------- |
+| Date of development | Feb 15, 2024  |
+| Validator type      | Format        |
+| Blog                |               |
+| License             | Apache 2      |
+| Input/Output        | Output        |
 
 ## Description
 
 ### Intended Use
+
 This validator is a template for creating other validators, but for demonstrative purposes it ensures that a generated output is the literal `pass`.
 
 ### Requirements
 
-* Dependencies:
-	- guardrails-ai>=0.4.0
+- Dependencies:
 
-* Foundation model access keys:
-	- OPENAI_API_KEY
+  - guardrails-ai>=0.4.0
+
+- Foundation model access keys:
+  - OPENAI_API_KEY
 
 ## Installation
 
@@ -80,17 +82,20 @@ guard.parse("""
 # API Reference
 
 **`__init__(self, on_fail="noop")`**
+
 <ul>
 Initializes a new instance of the ValidatorTemplate class.
 
 **Parameters**
-- **`arg_1`** *(str)*: A placeholder argument to demonstrate how to use init arguments.
-- **`arg_2`** *(str)*: Another placeholder argument to demonstrate how to use init arguments.
-- **`on_fail`** *(str, Callable)*: The policy to enact when a validator fails.  If `str`, must be one of `reask`, `fix`, `filter`, `refrain`, `noop`, `exception` or `fix_reask`. Otherwise, must be a function that is called when the validator fails.
+
+- **`arg_1`** _(str)_: A placeholder argument to demonstrate how to use init arguments.
+- **`arg_2`** _(str)_: Another placeholder argument to demonstrate how to use init arguments.
+- **`on_fail`** _(str, Callable)_: The policy to enact when a validator fails. If `str`, must be one of `reask`, `fix`, `filter`, `refrain`, `noop`, `exception` or `fix_reask`. Otherwise, must be a function that is called when the validator fails.
 </ul>
 <br/>
 
 **`validate(self, value, metadata) -> ValidationResult`**
+
 <ul>
 Validates the given `value` using the rules defined in this validator, relying on the `metadata` provided to customize the validation process. This method is automatically invoked by `guard.parse(...)`, ensuring the validation logic is applied to the input data.
 
@@ -100,11 +105,10 @@ Note:
 2. When invoking `guard.parse(...)`, ensure to pass the appropriate `metadata` dictionary that includes keys and values required by this validator. If `guard` is associated with multiple validators, combine all necessary metadata into a single dictionary.
 
 **Parameters**
-- **`value`** *(Any)*: The input value to validate.
-- **`metadata`** *(dict)*: A dictionary containing metadata required for validation. Keys and values must match the expectations of this validator.
-    
-    
-    | Key | Type | Description | Default |
-    | --- | --- | --- | --- |
-    | `key1` | String | Description of key1's role. | N/A |
-</ul>
+
+- **`value`** _(Any)_: The input value to validate.
+- **`metadata`** _(dict)_: A dictionary containing metadata required for validation. Keys and values must match the expectations of this validator.
+  | Key | Type | Description | Default |
+  | --- | --- | --- | --- |
+  | `key1` | String | Description of key1's role. | N/A |
+  </ul>

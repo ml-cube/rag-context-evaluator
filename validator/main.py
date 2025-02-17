@@ -85,9 +85,17 @@ class LlmRagContextEvaluator(Validator):
         # 3. Return the response
         return cast(RagRatingResponse, response)
 
-    def validate(self, value: Any, metadata: Dict) -> ValidationResult:
+    def validate(self, value: Any, metadata: Dict = {}) -> ValidationResult:
         """
         Validates is based on the relevance of the reference text to the original question.
+
+        **Key Properties**
+        | Property                      | Description                       |
+        | ----------------------------- | --------------------------------- |
+        | Name for `format` attribute   | `mlcube/`           |
+        | Supported data types          | `string`                          |
+        | Programmatic fix              | N/A                               |
+
 
         Args:
             value (Any): The value to validate. It must contain 'original_prompt' and 'reference_text' keys.
@@ -104,18 +112,18 @@ class LlmRagContextEvaluator(Validator):
             ValidationResult: The result of the validation. It can be a PassResult if the reference
                               text is relevant to the original question, or a FailResult otherwise.
         """
+
         # 1. Get the question and arg from the value
-        user_input = metadata.get("user_input")
+        user_input = metadata.get("user_input", None)
         if user_input is None:
             raise RuntimeError(
                 "user_input missing from value. Please provide the original prompt."
             )
 
-        retrieved_context = metadata.get("retrieved_context")
+        retrieved_context = metadata.get("retrieved_context", None)
         if retrieved_context is None:
             raise RuntimeError(
-                "'retreived_context' missing from value. "
-                "Please provide the retreived_context."
+                "retreived_context missing from value. Please provide the retreived_context."
             )
 
         min_range_value = int(metadata.get("min_range_value", self._default_min))
@@ -161,13 +169,13 @@ if __name__ == "__main__":
     )
     response = guard(
         llm_api=openai.chat.completions.create,
-        prompt="Chi sono io?",
+        prompt="Che tempo fa oggi a Milano?",
         model="gpt-4o-mini",
         max_tokens=1024,
         temperature=0,
         metadata={
-            "user_input": "Chi sono io?",
-            "retrieved_context": "Sono un essere umano.",
+            "user_input": "What's the weather in Milan, today?",
+            "retrieved_context": "Milan, what a beautiful day. Sunny and warm.",
         },
     )
     print(response)

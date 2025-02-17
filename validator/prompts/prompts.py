@@ -30,8 +30,8 @@ class RagContextRelevancePrompt(Ml3RagContextEvalBasePrompt):
         user_input: str | None,
         retrieved_context: str | None,
         language: TextLanguage = TextLanguage.ENGLISH,
-        min_range_value: int = 1,
-        max_range_value: int = 5,
+        min_range_value: int = 0,
+        max_range_value: int = 1,
         **kwargs,
     ) -> str:
         """Generates the prompt for evaluating the relevance of the context retrieved by a RAG LLM model.
@@ -42,8 +42,8 @@ class RagContextRelevancePrompt(Ml3RagContextEvalBasePrompt):
             retrieved_context (str | None): The context retrieved by the RAG LLM.
             llm_response (str | None): The response from the LLM evaluator.
             language (TextLanguage, optional): The language of the explanation. Defaults to TextLanguage.ENGLISH.
-            min_range_value (int, optional): The minimum value for the relevance rating. Defaults to 1.
-            max_range_value (int, optional): The maximum value for the relevance rating. Defaults to 5.
+            min_range_value (int, optional): The minimum value for the relevance rating. Defaults to 0.
+            max_range_value (int, optional): The maximum value for the relevance rating. Defaults to 1.
 
         Returns:
             str: The prompt for evaluating the relevance of the context."""
@@ -72,8 +72,8 @@ class RagContextUsefulnessPrompt(Ml3RagContextEvalBasePrompt):
         user_input: str | None,
         retrieved_context: str | None,
         language: TextLanguage = TextLanguage.ENGLISH,
-        min_range_value: int = 1,
-        max_range_value: int = 5,
+        min_range_value: int = 0,
+        max_range_value: int = 1,
         **kwargs,
     ) -> str:
         """Generates the prompt for evaluating the usefulness of the context retrieved by a RAG LLM model.
@@ -84,8 +84,8 @@ class RagContextUsefulnessPrompt(Ml3RagContextEvalBasePrompt):
             retrieved_context (str | None): The context retrieved by the RAG LLM.
             llm_response (str | None): The response from the LLM evaluator.
             language (TextLanguage, optional): The language of the explanation. Defaults to TextLanguage.ENGLISH.
-            min_range_value (int, optional): The minimum value for the relevance rating. Defaults to 1.
-            max_range_value (int, optional): The maximum value for the relevance rating. Defaults to 5.
+            min_range_value (int, optional): The minimum value for the relevance rating. Defaults to 0.
+            max_range_value (int, optional): The maximum value for the relevance rating. Defaults to 1.
 
         Returns:
             str: The prompt for evaluating the relevance of the context."""

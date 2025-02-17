@@ -1,10 +1,41 @@
 """Script to evaluate Context Relevancy Guard on "wiki_qa-train" benchmark dataset.
 * https://huggingface.co/datasets/microsoft/wiki_qa
 
+              precision    recall  f1-score   support
+
+    relevant       0.74      0.80      0.77        93
+   unrelated       0.81      0.76      0.78       107
+
+    accuracy                           0.78       200
+   macro avg       0.78      0.78      0.77       200
+weighted avg       0.78      0.78      0.78       200
+
+
+Latency
+┌────────────┬───────────┐
+│ statistic  ┆ value     │
+│ ---        ┆ ---       │
+│ str        ┆ f64       │
+╞════════════╪═══════════╡
+│ count      ┆ 200.0     │
+│ null_count ┆ 0.0       │
+│ mean       ┆ 5.273564  │
+│ std        ┆ 7.366384  │
+│ min        ┆ 1.463512  │
+│ 25%        ┆ 3.019866  │
+│ 50%        ┆ 3.626102  │
+│ 75%        ┆ 5.73277   │
+│ max        ┆ 97.985003 │
+└────────────┴───────────┘
+median latency
+3.618515562498942
 """
 
 import os
 import time
+import sys
+
+sys.path.append(".")
 from typing import List, Tuple
 
 import openai
@@ -31,8 +62,12 @@ MAX_TOKENS = 1024
 TEMPERATURE = 0.0
 MODELS = ["gpt-4o-mini"]
 N_EVAL_SAMPLE_SIZE = 200
-RELEVANCE_RESULTS_PATH = "context_relevance_guard_results.csv"
-USEFULNESS_RESULTS_PATH = "context_usefulness_guard_results.csv"
+RELEVANCE_RESULTS_PATH = os.path.join(
+    "evaluation_dataset", "results", "context_relevance_guard_results.csv"
+)
+USEFULNESS_RESULTS_PATH = os.path.join(
+    "evaluation_dataset", "results", "context_usefulness_guard_results.csv"
+)
 
 EVALUATION_DATASET_PATH = os.path.join("evaluation_dataset", "wiki_qa_train.parquet")
 RELEVANT_COLUMN_STR = "relevant_str"
@@ -70,7 +105,7 @@ def evaluate_guard_on_dataset(
             },
         )
         latency_measurements.append(time.perf_counter() - start_time)
-        guard_passed.append(response.validation_passed)
+        guard_passed.append(response.validation_passed)  # type: ignore
     return latency_measurements, guard_passed
 
 
@@ -117,10 +152,7 @@ def llm_rag_context_evaluation(
     # 1. Load the evaluation dataset
     test_dataset = get_eval_dataset(EVALUATION_DATASET_PATH)
 
-    # 2. Pre-compute the ground truth
-    y_true = test_dataset.select(pl.col(RELEVANT_COLUMN_STR)).to_series().to_list()
-
-    # 3. Evaluate the guard on the dataset for each model
+    # 2. Evaluate the guard on the dataset for each model
     for model in MODELS:
         guard = Guard().use(
             LlmRagContextEvaluator(
@@ -130,7 +162,7 @@ def llm_rag_context_evaluation(
                 pass_threshold=PASS_THRESHOLD,
                 model_name=model,
                 response_format=RagRatingResponse,
-                on_fail="noop",
+                on_fail="noop",  # type: ignore
                 on="prompt",
             )
         )
@@ -163,22 +195,36 @@ def llm_rag_context_evaluation(
             ]
         )
 
-        # Get the predictions
-        y_pred = (
-            test_dataset.select(pl.col(guard_passed_column_str)).to_series().to_list()
-        )
-
         # Compute the classification report
-
-        logger.info(classification_report(y_true, y_pred))
-        logger.info("Latency")
-        logger.info(test_dataset[f"guard_latency_{model}"].describe())
-        logger.info("median latency")
-        logger.info(test_dataset[f"guard_latency_{model}"].median())
+        compute_report(data=test_dataset, model=model)
 
     if save_results_path:
         test_dataset.write_csv(save_results_path)
 
 
+def compute_report(data: pl.DataFrame, model: str):
+    """Compute the classification over the guard results.
+
+    Args:
+        data (pl.DataFrame): Dataframe containing the guard results.
+        model (str): The model name
+    """
+    guard_passed_column_str = GUARD_PASSED_COLUMN_STR.format(model=model)
+
+    # Get the predictions
+    y_true = data.select(pl.col(RELEVANT_COLUMN_STR)).to_series().to_list()
+    y_pred = data.select(pl.col(guard_passed_column_str)).to_series().to_list()
+
+    # Compute the classification report
+
+    print(classification_report(y_true, y_pred))
+    print("Latency")
+    print(data[f"guard_latency_{model}"].describe())
+    print("median latency")
+    print(data[f"guard_latency_{model}"].median())
+
+
 if __name__ == "__main__":
     llm_rag_context_evaluation(RagContextUsefulnessPrompt, USEFULNESS_RESULTS_PATH)
+    usefulness_eval_df = pl.read_csv(USEFULNESS_RESULTS_PATH)
+    compute_report(usefulness_eval_df, "gpt-4o-mini")

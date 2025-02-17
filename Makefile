@@ -1,3 +1,7 @@
+
+export SRC_DIR=validator
+export PYTHONPATH='$(shell pwd)'
+
 dev:
 	pip install -e ".[dev]"
 
@@ -24,4 +28,4 @@ format:
 validate:
 	uv run ruff format
 	uv run ruff check --fix
-	uv run mypy --ignore-missing-imports --install-types --non-interactive --package validator
+	uv run mypy --ignore-missing-imports --install-types --non-interactive --package $(SRC_DIR)
