@@ -23,7 +23,7 @@ from typing import cast
 logger = logging.getLogger(__name__)
 
 
-@register_validator(name="ml-cube/rag_context_evaluator", data_type="string")
+@register_validator(name="mlcube/rag_context_evaluator", data_type="string")
 class LlmRagContextEvaluator(Validator):
     def __init__(
         self,
@@ -92,7 +92,7 @@ class LlmRagContextEvaluator(Validator):
         **Key Properties**
         | Property                      | Description                       |
         | ----------------------------- | --------------------------------- |
-        | Name for `format` attribute   | `mlcube/`           |
+        | Name for `format` attribute   | `mlcube/rag_context_evaluator`    |
         | Supported data types          | `string`                          |
         | Programmatic fix              | N/A                               |
 

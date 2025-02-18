@@ -7,7 +7,6 @@ from validator.models import RagRatingResponse
 from validator.prompts.prompts import RagContextUsefulnessPrompt
 
 from validator.main import LlmRagContextEvaluator
-from unittest.mock import patch
 
 
 @pytest.fixture
