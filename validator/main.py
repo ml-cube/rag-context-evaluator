@@ -10,7 +10,7 @@ from guardrails.validator_base import (
     register_validator,
 )
 from pydantic import BaseModel
-from litellm import get_llm_provider
+import litellm
 from validator.prompts.prompts import (
     Ml3RagContextEvalBasePrompt,
 )
@@ -62,7 +62,7 @@ class LlmRagContextEvaluator(Validator):
         messages = [{"content": prompt, "role": "user"}]
 
         # 2. Get the model provider given the model name
-        _model, model_provider, *_rest = get_llm_provider(self._model_name)
+        _model, model_provider, *_rest = litellm.get_llm_provider(self._model_name)  # type: ignore
 
         # 3. Inizialize the chat model with the
         model = chat_models.init_chat_model(

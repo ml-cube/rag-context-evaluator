@@ -1,7 +1,7 @@
 [project]
-name = "rag-context-relevance-evaluator"
+name = "rag-context-evaluator"
 version = "0.0.0"
-description = "ML3 RAG Context Relevance Evaluator"
+description = "ML3 RAG Context Evaluator"
 authors = [
     {name = "MLcube", email = "info@mlcube.com"}
 ]
