@@ -47,7 +47,7 @@ class RagContextRelevancePrompt(Ml3RagContextEvalBasePrompt):
 
         Returns:
             str: The prompt for evaluating the relevance of the context."""
-        if min_range_value < 0 or min_range_value > max_range_value:
+        if min_range_value < 0 or min_range_value >= max_range_value:
             raise ValueError(
                 f"min_range_value must be greater than 0 and less than max_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
             )
@@ -89,7 +89,7 @@ class RagContextUsefulnessPrompt(Ml3RagContextEvalBasePrompt):
 
         Returns:
             str: The prompt for evaluating the relevance of the context."""
-        if min_range_value < 0 or min_range_value > max_range_value:
+        if min_range_value < 0 or min_range_value >= max_range_value:
             raise ValueError(
                 f"min_range_value must be greater than 0 and less than max_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
             )

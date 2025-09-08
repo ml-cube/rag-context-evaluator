@@ -227,4 +227,6 @@ def compute_report(data: pl.DataFrame, model: str):
 if __name__ == "__main__":
     llm_rag_context_evaluation(RagContextUsefulnessPrompt, USEFULNESS_RESULTS_PATH)
     usefulness_eval_df = pl.read_csv(USEFULNESS_RESULTS_PATH)
-    compute_report(usefulness_eval_df, "gpt-4o-mini")
+
+    for model in MODELS:
+        compute_report(usefulness_eval_df, model)
