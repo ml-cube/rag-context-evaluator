@@ -1,9 +1,8 @@
 
-export SRC_DIR=validator
-export PYTHONPATH='$(shell pwd)'
-
+# Use uv as dependency manager, pip should work anyway
 dev:
-	pip install -e ".[dev]"
+# 	pip install -e ".[dev]"
+	uv sync --all-extras --no-cache
 
 lint:
 	ruff check .
@@ -18,14 +17,3 @@ qa:
 	make lint
 	make type
 	make test
-
-dev-sync:
-	uv sync --all-extras --no-cache
-
-format:
-	uv run ruff format
-
-validate:
-	uv run ruff format
-	uv run ruff check --fix
-	uv run mypy --ignore-missing-imports --install-types --non-interactive --package $(SRC_DIR)
