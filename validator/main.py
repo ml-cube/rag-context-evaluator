@@ -123,7 +123,7 @@ class LlmRagContextEvaluator(Validator):
         retrieved_context = metadata.get("retrieved_context", None)
         if retrieved_context is None:
             raise RuntimeError(
-                "retreived_context missing from value. Please provide the retreived_context."
+                "retrieved_context missing from value. Please provide the retrieved_context."
             )
 
         min_range_value = int(metadata.get("min_range_value", self._default_min))

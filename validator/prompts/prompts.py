@@ -49,17 +49,17 @@ class RagContextRelevancePrompt(Ml3RagContextEvalBasePrompt):
             str: The prompt for evaluating the relevance of the context."""
         if min_range_value < 0 or min_range_value > max_range_value:
             raise ValueError(
-                "min_range_value must be greater than 0 and less than max_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
+                f"min_range_value must be greater than 0 and less than max_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
             )
 
         if max_range_value < 0 or max_range_value < min_range_value:
             raise ValueError(
-                "max_range_value must be greater than 0 and greater than min_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
+                f"max_range_value must be greater than 0 and greater than min_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
             )
 
         return RAG_CONTEXT_RELEVANCE_PROMPT.format(
             user_input=user_input,
-            retreived_context=retrieved_context,
+            retrieved_context=retrieved_context,
             min_range_value=min_range_value,
             max_range_value=max_range_value,
             language=language,
@@ -91,17 +91,17 @@ class RagContextUsefulnessPrompt(Ml3RagContextEvalBasePrompt):
             str: The prompt for evaluating the relevance of the context."""
         if min_range_value < 0 or min_range_value > max_range_value:
             raise ValueError(
-                "min_range_value must be greater than 0 and less than max_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
+                f"min_range_value must be greater than 0 and less than max_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
             )
 
         if max_range_value < 0 or max_range_value < min_range_value:
             raise ValueError(
-                "max_range_value must be greater than 0 and greater than min_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
+                f"max_range_value must be greater than 0 and greater than min_range_value. Got: min_range_value: {min_range_value}, max_range_value: {max_range_value}"
             )
 
         return RAG_CONTEXT_USEFULNESS_PROMPT.format(
             user_input=user_input,
-            retreived_context=retrieved_context,
+            retrieved_context=retrieved_context,
             min_range_value=min_range_value,
             max_range_value=max_range_value,
             language=language,

@@ -54,5 +54,5 @@ def test_validate_missing_metadata(guard):
     with pytest.raises(RuntimeError, match="user_input missing from value"):
         guard.parse(llm_output="", metadata={})
 
-    with pytest.raises(RuntimeError, match="retreived_context missing from value"):
+    with pytest.raises(RuntimeError, match="retrieved_context missing from value"):
         guard.parse(llm_output="", metadata={"user_input": "What is the weather?"})
