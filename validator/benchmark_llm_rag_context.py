@@ -124,16 +124,22 @@ def get_eval_dataset(path: str) -> pl.DataFrame:
     Returns:
         pl.DataFrame: Evaluation dataset.
     """
-    test_dataset = pl.read_parquet(path)
-    test_dataset = cast(pl.DataFrame, shuffle(test_dataset, random_state=RANDOM_STATE))
-    test_dataset = test_dataset[:N_EVAL_SAMPLE_SIZE]
-    test_dataset = test_dataset.with_columns(
-        [
-            pl.when(pl.col("relevant"))
-            .then(pl.lit("relevant"))
-            .otherwise(pl.lit("unrelated"))
-            .alias(RELEVANT_COLUMN_STR),
-        ]
+    test_dataset = (
+        pl.read_parquet(path)
+        .sample(
+            n=N_EVAL_SAMPLE_SIZE,
+            seed=RANDOM_STATE,
+            with_replacement=False,
+            shuffle=True,
+        )
+        .with_columns(
+            [
+                pl.when(pl.col("relevant"))
+                .then(pl.lit("relevant"))
+                .otherwise(pl.lit("unrelated"))
+                .alias(RELEVANT_COLUMN_STR),
+            ]
+        )
     )
     return test_dataset
 

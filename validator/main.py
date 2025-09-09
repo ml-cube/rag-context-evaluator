@@ -102,7 +102,7 @@ class LlmRagContextEvaluator(Validator):
             metadata (Dict): The metadata for the validation.
                 user_input: Required key. User query passed into RAG LLM.
                 retrieved_context: Required key. Context used by RAG LLM.
-                llm_response: Optional key. By default, the gaurded LLM will make the RAG LLM call, which corresponds
+                llm_response: Optional key. By default, the guarded LLM will make the RAG LLM call, which corresponds
                     to the `value`. If the user calls the guard with on="prompt", then the original RAG LLM response
                     needs to be passed into the guard as metadata for the LLM judge to evaluate.
                 min_range_value: Optional key. The minimum value for the rating. Default is 1.
